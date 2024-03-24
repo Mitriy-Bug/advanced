@@ -1,30 +1,26 @@
 export default function orderByProps(obj, firstElementsOrder) {
+    const sortObg = {};
+    Object.keys(obj)
+        .sort()
+        .forEach(function(v) {
+            sortObg[v] = obj[v];
+        });
     const sortedKeys = [];
-
-    // Фильтрация исходных ключей объекта
-    const remainingKeys = Object.keys(obj).filter(key => !firstElementsOrder.includes(key));
-
-    // Сортировка оставшихся ключей по алфавиту
-    remainingKeys.sort();
-    console.log(remainingKeys);
-    // Добавление ключей из массива первых элементов
-    //sortedKeys.push(...firstElementsOrder);
-    function addKeysValues(obj, addsortedKeys, returnArray) {
-        for(const prop in obj) {
+    function addKeysValues(arrObj, addsortedKeys, returnArray) {
+        for(const prop in arrObj) {
             if (addsortedKeys.includes(prop)) {
                 returnArray.push({
                     key: prop,
-                    value: obj[prop]
+                    value: arrObj[prop]
                 });
             }
         }
     }
+    // Фильтрация исходных ключей объекта
+    const remainingKeys = Object.keys(obj).filter(key => !firstElementsOrder.includes(key));
+
     addKeysValues(obj, firstElementsOrder, sortedKeys);
-    //console.log(sortedKeys);
-    // Добавление отсортированных ключей из оставшихся ключей
-    //sortedKeys.push(...remainingKeys);
-    addKeysValues(obj, remainingKeys, sortedKeys);
-    //console.log(sortedKeys);
+    addKeysValues(sortObg, remainingKeys, sortedKeys);
 
     return sortedKeys;
 }
